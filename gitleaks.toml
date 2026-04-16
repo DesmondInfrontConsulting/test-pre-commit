@@ -8,38 +8,32 @@ paths = [
   "node_modules/"
 ]
 
-# =========================
-# 🔐 Generic KEY=VALUE secrets (IMPORTANT)
-# =========================
 [[rules]]
 id = "generic-env-secret"
 description = "Detect any sensitive ENV key assignment"
 regex = '''(?i)(password|passwd|pwd|secret|key|token|auth|credential|access|api).*=\s*["'].*["']'''
 tags = ["env", "secret"]
 
-# =========================
-# 🧠 Laravel core secrets
-# =========================
 [[rules]]
 id = "laravel-core-secrets"
 description = "Laravel sensitive core config"
 regex = '''(?i)(app_key|db_password|jwt_secret|redis_password|aws_secret_access_key).*=\s*["'].*["']'''
 tags = ["laravel", "core"]
 
-# =========================
-# ☁️ AWS / Cloud style leaks
-# =========================
 [[rules]]
 id = "aws-keys"
 description = "AWS credentials"
 regex = '''AKIA[0-9A-Z]{16}|aws_secret_access_key\s*=\s*["'].*["']'''
 tags = ["aws", "cloud"]
 
-# =========================
-# 🏢 Your FAAS / NG / MOLI systems
-# =========================
 [[rules]]
 id = "enterprise-gateway-secrets"
-description = "FAAS / NG / MOLI / internal gateway secrets"
-regex = '''(?i)(faas|ngpay|moli|ngos|celcom|digi|mmag|igw|dashboard).*(key|secret|password|token|auth).*=\s*["'].*["']'''
+description = "Detect FAAS / MOLI / NG gateway secrets"
+regex = '''(?i)^(MOLI|NGPAY|NGOS|FAAS|CELCOM|DIGI|MMAG|IGW|DASHBOARD|PRODUCT).*=(.+)$'''
 tags = ["enterprise", "gateway"]
+
+[[rules]]
+id = "sensitive-env-key-names"
+description = "Detect sensitive ENV keys regardless of value"
+regex = '''(?i)^(.*(password|passwd|pwd|secret|key|token|auth|credential|access).*)=.*$'''
+tags = ["env", "key-name"]
