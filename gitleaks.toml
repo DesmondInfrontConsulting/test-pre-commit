@@ -4,7 +4,8 @@ title = "Laravel Production Secret Rules"
 paths = [
   ".git/",
   "vendor/",
-  "node_modules/"
+  "node_modules/",
+  "config/*
 ]
 
 # =========================
