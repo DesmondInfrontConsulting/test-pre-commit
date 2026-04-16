@@ -6,3 +6,39 @@ paths = [
   "vendor/",
   "node_modules/"
 ]
+
+# =========================
+# 🔐 Generic sensitive ENV keys
+# =========================
+[[rules]]
+id = "sensitive-env-keys"
+description = "Catch sensitive environment variables"
+regex = '''(?i)(password|passwd|pwd|secret|token|key|auth|credential|access|api).*=\s*["']?.+["']?'''
+tags = ["env", "secret"]
+
+# =========================
+# 🧠 Laravel core secrets
+# =========================
+[[rules]]
+id = "laravel-core"
+description = "Laravel core sensitive values"
+regex = '''(?i)(APP_KEY|DB_PASSWORD|JWT_SECRET|REDIS_PASSWORD|AWS_SECRET_ACCESS_KEY)\s*=\s*.+'''
+tags = ["laravel", "core"]
+
+# =========================
+# ☁️ AWS keys
+# =========================
+[[rules]]
+id = "aws-keys"
+description = "AWS access keys"
+regex = '''AKIA[0-9A-Z]{16}|aws_secret_access_key\s*=\s*.+'''
+tags = ["aws"]
+
+# =========================
+# 🏢 Enterprise systems (FIXED)
+# =========================
+[[rules]]
+id = "enterprise-systems"
+description = "Enterprise gateway systems (FAAS / NGPAY / MOLI / NGOS etc.)"
+regex = '''(?i)(NGPAY|MOLI|FAAS|NGOS|CELCOM|DIGI|MMAG|IGW|DASHBOARD|PRODUCT).*_(KEY|SECRET|PASSWORD|TOKEN|AUTH)\s*=\s*.+'''
+tags = ["enterprise"]
