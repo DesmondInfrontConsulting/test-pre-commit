@@ -1,0 +1,21 @@
+title = "Laravel Custom Secret Rules"
+
+[allowlist]
+description = "Ignore harmless files"
+paths = [
+  ".git/",
+  "vendor/",
+  "node_modules/"
+]
+
+[[rules]]
+id = "laravel-env-password"
+description = "Detect Laravel env passwords"
+regex = '''(?i)(password|passwd|pwd)\s*=\s*["'].*["']'''
+tags = ["laravel", "password"]
+
+[[rules]]
+id = "laravel-auth-creds"
+description = "Detect auth gateway credentials"
+regex = '''(?i)(auth_email|auth_password|gateway_auth|faas).*=\s*["'].*["']'''
+tags = ["laravel", "auth", "faas"]
