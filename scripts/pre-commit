@@ -1,0 +1,30 @@
+#!/bin/sh
+
+echo "🔍 Running pre-commit checks..."
+
+# 1. Gitleaks (secret scan)
+if command -v gitleaks >/dev/null 2>&1; then
+    gitleaks protect --staged --verbose
+    if [ $? -ne 0 ]; then
+        echo "❌ Gitleaks detected secrets"
+        exit 1
+    fi
+else
+    echo "⚠️ Gitleaks not installed, skipping..."
+fi
+
+# 2. PHP lint (only staged files)
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep \.php$)
+
+if [ ! -z "$FILES" ]; then
+    for file in $FILES; do
+        php -l $file
+        if [ $? -ne 0 ]; then
+            echo "❌ PHP syntax error in $file"
+            exit 1
+        fi
+    done
+fi
+
+echo "✅ Pre-commit passed"
+exit 0
